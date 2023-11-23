@@ -42,4 +42,9 @@ public class api_service {
         }
         return false;
     }
+
+    public boolean removeEmployee(String id) {
+        employees.removeIf(e -> e.getId().equals(id));
+        return true;
+    }
 }

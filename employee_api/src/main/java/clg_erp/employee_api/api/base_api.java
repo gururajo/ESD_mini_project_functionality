@@ -26,9 +26,14 @@ public class base_api {
         return true;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/employee/{id}")
+    @RequestMapping(method = RequestMethod.PUT, value = "/employee/{id}")
     public boolean UpdateEmployee(@PathVariable String id, @RequestBody Employee employee) {
         return API_service.updateEmployee(id, employee);
 
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/employee/{id}")
+    public boolean RemoveEmployee(@PathVariable String id) {
+        return API_service.removeEmployee(id);
     }
 }
