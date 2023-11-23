@@ -1,10 +1,15 @@
 package clg_erp.employee_api.api;
 
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.Getter;
 
 @Getter
+@Entity
 public class Employee {
     @Getter
+    @Id
     String id;
     @Getter
     String fName;
@@ -100,7 +105,7 @@ public class Employee {
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
     @Override
     public String toString() {
         return "Employee [First Name=" + fName + ", Last Name=" + lName + ", E-mail=" + email + ", Designation=" + title
