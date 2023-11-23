@@ -8,21 +8,15 @@
 		<version>3.1.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>io.clg_erp.employees</groupId>
-	<artifactId>employee</artifactId>
+	<groupId>clg_erp</groupId>
+	<artifactId>employee_api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>employee</name>
+	<name>employee_api</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>21</java.version>
 	</properties>
 	<dependencies>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>

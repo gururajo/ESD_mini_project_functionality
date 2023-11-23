@@ -1,13 +1,13 @@
-package io.clg_erp.employees.employee;
+package clg_erp.employee_api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class EmployeeApplication {
+public class EmployeeApiApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(EmployeeApplication.class, args);
+		SpringApplication.run(EmployeeApiApplication.class, args);
 	}
 
 }

@@ -1,10 +1,10 @@
-package io.clg_erp.employees.employee;
+package clg_erp.employee_api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class EmployeeApplicationTests {
+class EmployeeApiApplicationTests {
 
 	@Test
 	void contextLoads() {
