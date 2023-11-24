@@ -1,4 +1,4 @@
-package clg_erp.employee_api.api;
+package clg_erp.employee_api.employee;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +9,15 @@ import java.util.List;
 public class base_api {
     @Autowired
     private api_service API_service;
+
+
+    @RequestMapping(method = RequestMethod.POST, path = "/login")
+    public boolean login(@RequestBody Employee employee) {
+        Employee e = API_service.getEmployeeByEmail(employee.getEmail());
+        return e.getPassword().equals(employee.getPassword());
+
+    }
+
 
     @RequestMapping("/employees")
     public List<Employee> getEmployees() {
@@ -22,12 +31,13 @@ public class base_api {
 
     @RequestMapping(method = RequestMethod.POST, value = "/employee")
     public boolean AddEmployee(@RequestBody Employee employee) {
-        API_service.addEmployee(employee);
-        return true;
+        return API_service.addEmployee(employee);
+
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/employee/{id}")
     public boolean UpdateEmployee(@PathVariable String id, @RequestBody Employee employee) {
+        employee.setid(id);
         return API_service.updateEmployee(id, employee);
 
     }
