@@ -17,13 +17,13 @@ public class base_api {
 
 
     @RequestMapping(method = RequestMethod.POST, path = "/login")
-    public boolean login(@RequestBody Employee employee) {
+    public Employee login(@RequestBody Employee employee) {
         System.out.println(employee.toString());
         Employee e = API_service.getEmployeeByEmail(employee.getEmail());
         if( e == null ){
-            return false;
+            return null;
         }
-        return e.getPassword().equals(employee.getPassword());
+        return e.getPassword().equals(employee.getPassword())?e : null;
 
     }
 
@@ -49,7 +49,7 @@ public class base_api {
     public boolean AddProfilePhoto(@RequestBody @RequestParam("file") MultipartFile profile_photo, @PathVariable String id){
 
         try {
-            Path filePath = Path.of("C:\\MINE\\temp\\uploads", id);
+            Path filePath = Path.of("C:\\MINE\\temp\\ESD_mini_project_functionality\\react_server\\public\\data", id+".jpg" );
             Files.copy(profile_photo.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
             return true;

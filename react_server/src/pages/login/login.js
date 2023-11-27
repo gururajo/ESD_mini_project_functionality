@@ -40,42 +40,44 @@ export default function Login() {
 			setLoggedIn(true);
 			return;
 		}
-		sessionStorage.username = "sometig";
-		sessionStorage.password = "sometig";
-		setLoggedIn(true);
-		return;
-		// try {
-		// 	const data = {
-		// 		id: 9999999,
-		// 		fname: "",
-		// 		lname: "",
-		// 		email: username,
-		// 		title: "",
-		// 		photograph_path: "",
-		// 		password: password,
-		// 		department_id: {
-		// 			id: 9999999,
-		// 			name: "",
-		// 			capacity: 9999999,
-		// 		},
-		// 	};
-		// 	console.log(data);
-		// 	const response = await axios.post(
-		// 		"http://localhost:8080/login",
-		// 		data
-		// 	);
-		// 	console.log(response);
-		// 	if (response.data === true) {
-		// 		sessionStorage.username = username;
-		// 		sessionStorage.password = password;
-		// 		setLoggedIn(true);
-		// 	} else {
-		// 		// Handle authentication error
-		// 		toast.error("Login failed");
-		// 	}
-		// } catch (error) {
-		// 	toast.error("Error during login:" + String(error));
-		// }
+		// sessionStorage.username = "sometig";
+		// sessionStorage.password = "sometig";
+		// setLoggedIn(true);
+		// return;
+		try {
+			const data = {
+				id: 9999999,
+				fname: "",
+				lname: "",
+				email: username,
+				title: "",
+				photograph_path: "",
+				password: password,
+				department_id: {
+					id: 9999999,
+					name: "",
+					capacity: 9999999,
+				},
+			};
+			console.log(data);
+			const response = await axios.post(
+				"http://localhost:8080/login",
+				data
+			);
+			console.log(response);
+			if (response.data) {
+				sessionStorage.username = username;
+				sessionStorage.password = password;
+				sessionStorage.id = response.data.id;
+				sessionStorage.data = JSON.stringify(response.data);
+				setLoggedIn(true);
+			} else {
+				// Handle authentication error
+				toast.error("Login failed");
+			}
+		} catch (error) {
+			toast.error("Error during login:" + String(error));
+		}
 	};
 	useEffect(() => {
 		if (sessionStorage.username) setLoggedIn(true);

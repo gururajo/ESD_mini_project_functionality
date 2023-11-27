@@ -44,7 +44,7 @@ public class api_service {
 
         try {
              Employee temp =  employeeRepository.save(employee);
-             temp.photograph_path = String.valueOf(Path.of("C:\\MINE\\temp\\uploads", String.valueOf(temp.getId())));
+             temp.photograph_path = String.valueOf(Path.of("C:\\MINE\\temp\\ESD_mini_project_functionality\\react_server\\public\\data", String.valueOf(temp.getId())));
              this.updateEmployee(String.valueOf(temp.getId()), temp);
              return temp;
 

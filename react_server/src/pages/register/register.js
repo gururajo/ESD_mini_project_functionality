@@ -18,6 +18,7 @@ import {
 } from "reactstrap";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { Link, Navigate } from "react-router-dom";
 export default function Register() {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -41,6 +42,10 @@ export default function Register() {
 	});
 
 	useEffect(() => {
+		if (sessionStorage.username && sessionStorage.username !== "admin") {
+			setData(JSON.parse(sessionStorage.data));
+		}
+
 		axios
 			.get("http://localhost:8080/departments")
 			.then((response) => {
@@ -115,6 +120,7 @@ export default function Register() {
 			toast.error("Please add profile picture");
 			return;
 		}
+		let photograph_path_bk = data.photograph_path;
 		data.photograph_path = "";
 		toast.success("Okay submitting");
 		console.log(data);
@@ -125,8 +131,11 @@ export default function Register() {
 			);
 			console.log(response);
 			if (response.status === 200) {
-				console.log(response);
+				console.log(response.data);
+				data.photograph_path = photograph_path_bk;
 				uploadPhoto(response.data.id);
+				toast.success("submitted successfully");
+				return <Navigate to="/" />;
 			} else {
 				// Handle authentication error
 				toast.error("Submit failed");
@@ -142,7 +151,7 @@ export default function Register() {
 			return { ...data, photograph_path: event.target.files[0] };
 		});
 	}
-	return (
+	return sessionStorage.username !== undefined ? (
 		<Container className="login_box">
 			<Card className="login_box">
 				<CardHeader>
@@ -258,9 +267,14 @@ export default function Register() {
 							/>
 						</FormGroup>
 						<Button>Submit</Button>
+						<Link to="/dashboard" className="to-dashboard-button">
+							Dashboard
+						</Link>
 					</Form>
 				</CardBody>
 			</Card>
 		</Container>
+	) : (
+		<Navigate to="/" />
 	);
 }
