@@ -20,7 +20,9 @@ import { toast } from "react-toastify";
 import axios from "axios";
 export default function Register() {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
+
 	const [departments, setDepartments] = useState([]);
+	const [dropdownChoice, setDropdownChoice] = useState("Choose Option");
 
 	const toggle = () => setDropdownOpen((prevState) => !prevState);
 	const [data, setData] = useState({
@@ -84,56 +86,54 @@ export default function Register() {
 	async function validateAndSubmit(event) {
 		console.log(event);
 		event.preventDefault();
-		// if (data.fname === "") {
-		// 	toast.error("First name is Emplty");
-		// 	return;
-		// }
+		if (data.fname === "") {
+			toast.error("First name is Emplty");
+			return;
+		}
 
-		// if (data.lname === "") {
-		// 	toast.error("Last name is Emplty");
-		// 	return;
-		// }
-		// if (data.email === "") {
-		// 	toast.error("E-mail is Emplty");
-		// 	return;
-		// }
-		// if (data.password === "") {
-		// 	toast.error("Password is Emplty");
-		// 	return;
-		// }
-		// if (data.title === "") {
-		// 	toast.error("Title is Emplty");
-		// 	return;
-		// }
-		// if (data.department_id === "Choose Option") {
-		// 	toast.error("Please select department");
-		// 	return;
-		// }
+		if (data.lname === "") {
+			toast.error("Last name is Emplty");
+			return;
+		}
+		if (data.email === "") {
+			toast.error("E-mail is Emplty");
+			return;
+		}
+		if (data.password === "") {
+			toast.error("Password is Emplty");
+			return;
+		}
+		if (data.title === "") {
+			toast.error("Title is Emplty");
+			return;
+		}
+		if (data.department_id === "Choose Option") {
+			toast.error("Please select department");
+			return;
+		}
 		if (data.photograph_path === "") {
 			toast.error("Please add profile picture");
 			return;
 		}
-
-		// try {
-		// 	const data = {};
-		// 	console.log(data);
-		// 	const response = await axios.post(
-		// 		"http://localhost:8080/login",
-		// 		data
-		// 	);
-		// 	console.log(response);
-		// 	if (response.data === true) {
-		// 		setLoggedIn(true);
-		// 	} else {
-		// 		// Handle authentication error
-		// 		toast.error("Login failed");
-		// 	}
-		// } catch (error) {
-		// 	toast.error("Error during login:" + String(error));
-		// }
-		uploadPhoto(1);
-
+		data.photograph_path = "";
 		toast.success("Okay submitting");
+		console.log(data);
+		try {
+			const response = await axios.post(
+				"http://localhost:8080/employee",
+				data
+			);
+			console.log(response);
+			if (response.status === 200) {
+				console.log(response);
+				uploadPhoto(response.data.id);
+			} else {
+				// Handle authentication error
+				toast.error("Submit failed");
+			}
+		} catch (error) {
+			toast.error("Error during uploading:" + String(error));
+		}
 	}
 
 	function handlePhotoUpdate(event) {
@@ -217,7 +217,24 @@ export default function Register() {
 									</DropdownItem>
 									{departments ? (
 										departments.map((department) => (
-											<DropdownItem key={department.id}>
+											<DropdownItem
+												key={department.id}
+												onClick={() => {
+													setData((data) => {
+														setDropdownChoice(
+															department.name
+														);
+														return {
+															...data,
+															department_id: {
+																id: department.id,
+																name: department.name,
+																capacity: 9999999,
+															},
+														};
+													});
+												}}
+											>
 												{department.name}{" "}
 												{/* Adjust this based on your department structure */}
 											</DropdownItem>
@@ -227,6 +244,7 @@ export default function Register() {
 									)}
 								</DropdownMenu>
 							</Dropdown>
+							<Label for="choice">{dropdownChoice}</Label>
 						</FormGroup>
 						<FormGroup>
 							<Label for="photograph_path">

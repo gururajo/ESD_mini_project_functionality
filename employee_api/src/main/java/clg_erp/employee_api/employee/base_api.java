@@ -35,20 +35,21 @@ public class base_api {
 
     @RequestMapping("/employee/{id}")
     public Employee getEmployee(@PathVariable String id) {
+
         return API_service.getEmployee(id);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/employee")
-    public boolean AddEmployee(@RequestBody Employee employee) {
+    public Employee AddEmployee(@RequestBody Employee employee) {
+
         return API_service.addEmployee(employee);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/profile_photo/{id}")
-    public boolean AddProfilePhoto(@RequestBody @RequestParam("file") MultipartFile profile_photo){
+    public boolean AddProfilePhoto(@RequestBody @RequestParam("file") MultipartFile profile_photo, @PathVariable String id){
 
         try {
-            String fileName = profile_photo.getOriginalFilename();
-            Path filePath = Path.of("C:\\MINE\\temp\\uploads", fileName);
+            Path filePath = Path.of("C:\\MINE\\temp\\uploads", id);
             Files.copy(profile_photo.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
             return true;

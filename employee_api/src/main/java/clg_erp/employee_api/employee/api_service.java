@@ -1,8 +1,10 @@
 package clg_erp.employee_api.employee;
 
+import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,17 +35,24 @@ public class api_service {
 
     }
 
-    public boolean addEmployee(Employee employee) {
+    public Employee addEmployee(Employee employee) {
 
         System.out.println(employee.toString());
         Optional<Employee> optionalEmployee = employeeRepository.findById(employee.getId());
         //System.out.println(optionalEmployee.orElse(null).toString());
-        if (optionalEmployee.isPresent()) return false;
+        if (optionalEmployee.isPresent()) return null;
 
+        try {
+             Employee temp =  employeeRepository.save(employee);
+             temp.photograph_path = String.valueOf(Path.of("C:\\MINE\\temp\\uploads", String.valueOf(temp.getId())));
+             this.updateEmployee(String.valueOf(temp.getId()), temp);
+             return temp;
 
-        employeeRepository.save(employee);
+        }
+        catch (BeanCreationException e){
+            return null;
+        }
 
-        return true;
     }
 
     public boolean updateEmployee(String id, Employee employee) {

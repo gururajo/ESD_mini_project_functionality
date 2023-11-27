@@ -4,6 +4,7 @@ import { Link, Navigate } from "react-router-dom";
 import { Button } from "reactstrap";
 export default function Dashboard() {
 	const [isPressed, setisPressesd] = useState(false);
+	const [isadmin, setisAdmin] = useState(false);
 
 	function clearSession() {
 		// useEffect(() => {
@@ -16,21 +17,27 @@ export default function Dashboard() {
 		if (sessionStorage.username === undefined) {
 			setisPressesd(true);
 		}
+		if (sessionStorage.username && sessionStorage.username === "admin") {
+			setisAdmin(true);
+		}
 	}, []);
 	return (
 		<>
 			{!isPressed ? (
 				<div className="dashboard-main">
-					<div className="option">
-						<Link to="/register" className="link-to-register">
-							<h1>Update Details</h1>
-						</Link>
-					</div>
-					<div className="option">
-						<Link to="/register" className="link-to-register">
-							<h1>Register Employee</h1>
-						</Link>
-					</div>
+					{!isadmin ? (
+						<div className="option">
+							<Link to="/register" className="link-to-register">
+								<h1>Update Details</h1>
+							</Link>
+						</div>
+					) : (
+						<div className="option">
+							<Link to="/register" className="link-to-register">
+								<h1>Register Employee</h1>
+							</Link>
+						</div>
+					)}
 
 					<div className="option">
 						<Button onClick={clearSession}>Logout</Button>

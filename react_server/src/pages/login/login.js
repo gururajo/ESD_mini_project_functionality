@@ -34,6 +34,12 @@ export default function Login() {
 	// };
 
 	const handleLogin = async () => {
+		if (username === "admin" && password === "admin") {
+			sessionStorage.username = "admin";
+			sessionStorage.password = "admin";
+			setLoggedIn(true);
+			return;
+		}
 		sessionStorage.username = "sometig";
 		sessionStorage.password = "sometig";
 		setLoggedIn(true);
