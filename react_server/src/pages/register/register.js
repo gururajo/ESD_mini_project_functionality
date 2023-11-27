@@ -81,7 +81,7 @@ export default function Register() {
 			});
 	}
 
-	function validateAndSubmit(event) {
+	async function validateAndSubmit(event) {
 		console.log(event);
 		event.preventDefault();
 		// if (data.fname === "") {
@@ -114,6 +114,23 @@ export default function Register() {
 			return;
 		}
 
+		// try {
+		// 	const data = {};
+		// 	console.log(data);
+		// 	const response = await axios.post(
+		// 		"http://localhost:8080/login",
+		// 		data
+		// 	);
+		// 	console.log(response);
+		// 	if (response.data === true) {
+		// 		setLoggedIn(true);
+		// 	} else {
+		// 		// Handle authentication error
+		// 		toast.error("Login failed");
+		// 	}
+		// } catch (error) {
+		// 	toast.error("Error during login:" + String(error));
+		// }
 		uploadPhoto(1);
 
 		toast.success("Okay submitting");

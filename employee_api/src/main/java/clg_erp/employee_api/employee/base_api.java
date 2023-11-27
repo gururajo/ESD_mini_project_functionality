@@ -18,7 +18,11 @@ public class base_api {
 
     @RequestMapping(method = RequestMethod.POST, path = "/login")
     public boolean login(@RequestBody Employee employee) {
+        System.out.println(employee.toString());
         Employee e = API_service.getEmployeeByEmail(employee.getEmail());
+        if( e == null ){
+            return false;
+        }
         return e.getPassword().equals(employee.getPassword());
 
     }

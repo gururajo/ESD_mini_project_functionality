@@ -1,39 +1,79 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import "./login.css";
 import { Button, Form, FormGroup, Input, Label } from "reactstrap";
+import { toast } from "react-toastify";
+import axios from "axios";
+
 export default function Login() {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [loggedIn, setLoggedIn] = useState(false);
 
 	// const handleLogin = async () => {
-	const handleLogin = () => {
+	// const handleLogin = async () => {
+	// 	try {
+	// 		const response = await fetch("your-api-endpoint/login", {
+	// 			method: "POST",
+	// 			headers: {
+	// 				"Content-Type": "application/json",
+	// 			},
+	// 			body: JSON.stringify({ username, password }),
+	// 		});
+
+	// 		if (response.ok) {
+	// 			setLoggedIn(true);
+	// 			// You may perform additional actions upon successful login
+	// 		} else {
+	// 			// Handle authentication error
+	// 			toast.error("Error Username or Password");
+	// 		}
+	// 	} catch (error) {
+	// 		toast.error("Error during login:" + String(error));
+	// 	}
+	// };
+
+	const handleLogin = async () => {
+		sessionStorage.username = "sometig";
+		sessionStorage.password = "sometig";
 		setLoggedIn(true);
-
-		// uncomment the following line if you do not want
-
-		// Simulating an API call for authentication
+		return;
 		// try {
-		// 	const response = await fetch("your-api-endpoint/login", {
-		// 		method: "POST",
-		// 		headers: {
-		// 			"Content-Type": "application/json",
+		// 	const data = {
+		// 		id: 9999999,
+		// 		fname: "",
+		// 		lname: "",
+		// 		email: username,
+		// 		title: "",
+		// 		photograph_path: "",
+		// 		password: password,
+		// 		department_id: {
+		// 			id: 9999999,
+		// 			name: "",
+		// 			capacity: 9999999,
 		// 		},
-		// 		body: JSON.stringify({ username, password }),
-		// 	});
-
-		// 	if (response.ok) {
-		// 		return <BrowserRouter to="/home" />;
-		// 		// You may perform additional actions upon successful login
+		// 	};
+		// 	console.log(data);
+		// 	const response = await axios.post(
+		// 		"http://localhost:8080/login",
+		// 		data
+		// 	);
+		// 	console.log(response);
+		// 	if (response.data === true) {
+		// 		sessionStorage.username = username;
+		// 		sessionStorage.password = password;
+		// 		setLoggedIn(true);
 		// 	} else {
 		// 		// Handle authentication error
-		// 		console.error("Login failed");
+		// 		toast.error("Login failed");
 		// 	}
 		// } catch (error) {
-		// 	console.error("Error during login:", error);
+		// 	toast.error("Error during login:" + String(error));
 		// }
 	};
+	useEffect(() => {
+		if (sessionStorage.username) setLoggedIn(true);
+	}, []);
 
 	return (
 		<>
@@ -42,7 +82,7 @@ export default function Login() {
 				// 	<h2>Welcome, IIITB ERP System!</h2>
 				// 	{/* Display employee dashboard or other content */}
 				// </div>
-				<Navigate to={"/home"} />
+				<Navigate to={"/dashboard"} />
 			) : (
 				<div className="login">
 					<div className="login_box">
