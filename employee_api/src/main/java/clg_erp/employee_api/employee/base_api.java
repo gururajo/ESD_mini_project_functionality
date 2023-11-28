@@ -30,6 +30,7 @@ public class base_api {
 
     @RequestMapping("/employees")
     public List<Employee> getEmployees() {
+        System.out.println("Getting employees...");
         return API_service.getEmployees();
     }
 
