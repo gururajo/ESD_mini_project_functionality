@@ -62,8 +62,9 @@ public class base_api {
 
 
     @RequestMapping(method = RequestMethod.PUT, value = "/employee/{id}")
-    public boolean UpdateEmployee(@PathVariable String id, @RequestBody Employee employee) {
+    public Employee UpdateEmployee(@PathVariable String id, @RequestBody Employee employee) {
         employee.setid(id);
+        employee.setPhotograph_path(String.valueOf(Path.of("C:\\MINE\\temp\\ESD_mini_project_functionality\\react_server\\public\\data", String.valueOf(employee.getId()))));
         return API_service.updateEmployee(id, employee);
 
     }

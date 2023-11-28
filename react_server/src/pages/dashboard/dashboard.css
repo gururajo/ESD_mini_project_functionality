@@ -15,3 +15,9 @@
 .link-to-register {
 	text-decoration: none;
 }
+
+.dashboard-main {
+	margin: auto;
+	max-width: 50%;
+	min-width: 600px;
+}

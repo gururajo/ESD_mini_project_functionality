@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ApiService {
-    @Autowired
-    private DepartmentRepository departmentRepository;
+    public class ApiService {
+        @Autowired
+        private DepartmentRepository departmentRepository;
 
     public List<Department> getDepartments() {
         List<Department> departments = new ArrayList<Department>();

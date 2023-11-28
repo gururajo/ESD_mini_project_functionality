@@ -22,6 +22,7 @@ import { Link, Navigate } from "react-router-dom";
 export default function Register() {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 
+	const [isadmin, setisAdmin] = useState(false);
 	const [departments, setDepartments] = useState([]);
 	const [dropdownChoice, setDropdownChoice] = useState("Choose Option");
 
@@ -44,6 +45,10 @@ export default function Register() {
 	useEffect(() => {
 		if (sessionStorage.username && sessionStorage.username !== "admin") {
 			setData(JSON.parse(sessionStorage.data));
+			setisAdmin(false);
+		}
+		if (sessionStorage.username && sessionStorage.username === "admin") {
+			setisAdmin(true);
 		}
 
 		axios
@@ -80,11 +85,13 @@ export default function Register() {
 			})
 			.then((response) => {
 				// handle the response
+				if (response.status !== 200)
+					toast.error("Upload profile photo failed");
 				console.log(response);
 			})
 			.catch((error) => {
 				// handle errors
-				console.log(error);
+				toast.error(error);
 			});
 	}
 
@@ -125,10 +132,16 @@ export default function Register() {
 		toast.success("Okay submitting");
 		console.log(data);
 		try {
-			const response = await axios.post(
-				"http://localhost:8080/employee",
-				data
-			);
+			let response = null;
+			isadmin
+				? (response = await axios.post(
+						"http://localhost:8080/employee",
+						data
+				  ))
+				: (response = await axios.put(
+						"http://localhost:8080/employee/" + String(data.id),
+						data
+				  ));
 			console.log(response);
 			if (response.status === 200) {
 				console.log(response.data);

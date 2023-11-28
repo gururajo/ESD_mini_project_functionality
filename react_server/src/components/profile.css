@@ -1,0 +1,9 @@
+.profile-img {
+	height: 300px;
+	width: 200px;
+}
+
+.profile-card {
+	max-width: fit-content;
+	margin: 10px;
+}

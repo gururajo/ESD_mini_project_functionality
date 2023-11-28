@@ -1,5 +1,7 @@
 package clg_erp.employee_api.employee;
 
+import clg_erp.employee_api.Department.Department;
+import clg_erp.employee_api.Department.DepartmentRepository;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,8 +16,8 @@ public class api_service {
 
     @Autowired
     private EmployeeRepository employeeRepository;
-
-
+    @Autowired
+    private DepartmentRepository departmentRepository;
     public List<Employee> getEmployees() {
         List<Employee> employees;
         employees = new ArrayList<>();
@@ -38,10 +40,13 @@ public class api_service {
     public Employee addEmployee(Employee employee) {
 
         System.out.println(employee.toString());
-        Optional<Employee> optionalEmployee = employeeRepository.findById(employee.getId());
+        Optional<Employee> optionalEmployee = Optional.ofNullable(employeeRepository.getEmployeesByEmail(employee.getEmail()));
         //System.out.println(optionalEmployee.orElse(null).toString());
         if (optionalEmployee.isPresent()) return null;
-
+        Integer deptId = employee.department_id.getId();
+        Department department= departmentRepository.findById(deptId).orElse(null);
+        if (department == null) return null;
+        if (department.getCapacity()<1)return null;
         try {
              Employee temp =  employeeRepository.save(employee);
              temp.photograph_path = String.valueOf(Path.of("C:\\MINE\\temp\\ESD_mini_project_functionality\\react_server\\public\\data", String.valueOf(temp.getId())));
@@ -50,18 +55,19 @@ public class api_service {
 
         }
         catch (BeanCreationException e){
+            System.out.println("Error while saving the employee");
             return null;
         }
 
     }
 
-    public boolean updateEmployee(String id, Employee employee) {
+    public Employee updateEmployee(String id, Employee employee) {
         Optional<Employee> optionalEmployee = employeeRepository.findById(Integer.valueOf(id));
         Employee sureEmployee = optionalEmployee.orElse(null);
-        if (sureEmployee == null) return false;
+        if (sureEmployee == null) return null;
         employee.setPassword(sureEmployee.getPassword());
-        employeeRepository.save(employee);
-        return true;
+        return employeeRepository.save(employee);
+
 
     }
 
