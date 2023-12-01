@@ -47,9 +47,13 @@ public class base_api {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/profile_photo/{id}")
-    public boolean AddProfilePhoto(@RequestBody @RequestParam("file") MultipartFile profile_photo, @PathVariable String id){
-
-        try {
+    public boolean AddProfilePhoto(@RequestBody @RequestParam("file") MultipartFile profile_photo, @PathVariable String id, @RequestHeader("Authorization") String authcredentials){
+        String[] parts = authcredentials.split("%&%");
+        Employee authemp = API_service.getEmployeeByEmail(parts[0]);
+        if(authemp.getPassword() != parts[1] ){
+            return false;
+        }
+    try {
             Path filePath = Path.of("C:\\MINE\\temp\\ESD_mini_project_functionality\\react_server\\public\\data", id+".jpg" );
             Files.copy(profile_photo.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 

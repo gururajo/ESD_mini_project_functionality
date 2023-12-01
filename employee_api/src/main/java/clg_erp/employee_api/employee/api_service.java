@@ -22,6 +22,7 @@ public class api_service {
         List<Employee> employees;
         employees = new ArrayList<>();
         employeeRepository.findAll().forEach(employees::add);
+        System.out.println(employees.toString());
         return employees;
 
     }

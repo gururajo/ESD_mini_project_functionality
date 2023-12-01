@@ -61,7 +61,7 @@ export default function Login() {
 			};
 			console.log(data);
 			const response = await axios.post(
-				"http://192.168.1.17:8080/login",
+				"http://localhost:8080/login",
 				data
 			);
 			console.log(response);

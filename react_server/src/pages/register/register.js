@@ -52,7 +52,7 @@ export default function Register() {
 		}
 
 		axios
-			.get("http://192.168.1.17:8080/departments")
+			.get("http://localhost:8080/departments")
 			.then((response) => {
 				console.log(response.data);
 				setDepartments(response.data);
@@ -78,9 +78,13 @@ export default function Register() {
 		formData.append("file", data.photograph_path);
 		// make a POST request to the File Upload API with the FormData object and Rapid API headers
 		axios
-			.post("http://192.168.1.17:8080/profile_photo/" + id, formData, {
+			.post("http://localhost:8080/profile_photo/" + id, formData, {
 				headers: {
 					"Content-Type": "multipart/form-data",
+					Authorization:
+						sessionStorage.username +
+						"%&%" +
+						sessionStorage.password,
 				},
 			})
 			.then((response) => {
@@ -135,11 +139,11 @@ export default function Register() {
 			let response = null;
 			isadmin
 				? (response = await axios.post(
-						"http://192.168.1.17:8080/employee",
+						"http://localhost:8080/employee",
 						data
 				  ))
 				: (response = await axios.put(
-						"http://192.168.1.17:8080/employee/" + String(data.id),
+						"http://localhost:8080/employee/" + String(data.id),
 						data
 				  ));
 			console.log(response);
@@ -231,7 +235,7 @@ export default function Register() {
 								defaultValue={"Choose Option"}
 							>
 								<DropdownToggle caret>
-									Select Department
+									{dropdownChoice}
 								</DropdownToggle>
 								<DropdownMenu>
 									<DropdownItem disabled={true}>
@@ -266,7 +270,7 @@ export default function Register() {
 									)}
 								</DropdownMenu>
 							</Dropdown>
-							<Label for="choice">{dropdownChoice}</Label>
+							{/* <Label for="choice">{dropdownChoice}</Label> */}
 						</FormGroup>
 						<FormGroup>
 							<Label for="photograph_path">

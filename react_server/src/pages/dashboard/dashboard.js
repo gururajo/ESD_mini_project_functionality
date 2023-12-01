@@ -30,7 +30,7 @@ export default function Dashboard() {
 	useEffect(() => {
 		if (!isadmin) {
 			axios
-				.get("http://192.168.1.17:8080/employees")
+				.get("http://localhost:8080/employees")
 				.then((response) => {
 					setemployees(response.data);
 					console.log("response", response.data);
