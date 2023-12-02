@@ -43,6 +43,38 @@ export default function Register() {
 	});
 
 	useEffect(() => {
+		var sessionStorage_transfer = function (event) {
+			if (!event) {
+				event = window.event;
+			} // ie suq
+			if (!event.newValue) return; // do nothing if no value to work with
+			if (event.key == "getSessionStorage") {
+				// another tab asked for the sessionStorage -> send it
+				localStorage.setItem(
+					"sessionStorage",
+					JSON.stringify(sessionStorage)
+				);
+				// the other tab should now have it, so we're done with it.
+				localStorage.removeItem("sessionStorage"); // <- could do short timeout as well.
+			} else if (
+				event.key == "sessionStorage" &&
+				!sessionStorage.length
+			) {
+				// another tab sent data <- get it
+				var data = JSON.parse(event.newValue);
+				for (var key in data) {
+					sessionStorage.setItem(key, data[key]);
+				}
+			}
+		};
+
+		localStorage.setItem("getSessionStorage", "foobar");
+		localStorage.removeItem("getSessionStorage", "foobar");
+		if (window.addEventListener) {
+			window.addEventListener("storage", sessionStorage_transfer, false);
+		} else {
+			window.attachEvent("onstorage", sessionStorage_transfer);
+		}
 		if (sessionStorage.username && sessionStorage.username !== "admin") {
 			setData(JSON.parse(sessionStorage.data));
 			setisAdmin(false);
@@ -146,12 +178,16 @@ export default function Register() {
 						"http://localhost:8080/employee/" + String(data.id),
 						data
 				  ));
-			console.log(response);
+			console.log("put/putResponse", response);
+
 			if (response.status === 200) {
 				console.log(response.data);
 				data.photograph_path = photograph_path_bk;
 				uploadPhoto(response.data.id);
 				toast.success("submitted successfully");
+				if (!isadmin) {
+					sessionStorage.data = JSON.stringify(response.data);
+				}
 				return <Navigate to="/" />;
 			} else {
 				// Handle authentication error
